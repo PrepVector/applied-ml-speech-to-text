@@ -1,0 +1,18 @@
+services:
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      /app/app.py --server.port 8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+    profiles:
+      - app
+
+networks:
+  app:
+    driver: bridge
