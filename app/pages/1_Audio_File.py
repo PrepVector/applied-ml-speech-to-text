@@ -113,17 +113,22 @@ def main():
             file_name = uploaded_file.name
             audio_file_path = f"{BASE_PATH}/{file_name}"
             # print(file_name)
-            if file_name.endswith(".mp3"):
-                audio = AudioSegment.from_mp3(uploaded_file)
-                audio.export(audio_file_path, format="wav")
-            else:
-                wav_file = AudioSegment.from_wav(uploaded_file)
-                wav_file.export(audio_file_path, format="wav")
+            try:
+                if file_name.endswith(".mp3"):
+                    audio = AudioSegment.from_mp3(uploaded_file)
+                    audio.export(audio_file_path, format="wav")
+                else:
+                    wav_file = AudioSegment.from_wav(uploaded_file)
+                    wav_file.export(audio_file_path, format="wav")
+                st.session_state["correct_upload"] = True
+            except Exception as e:
+                st.error("Error in converting file! Please verify the format.")
+                st.session_state["correct_upload"] = False
 
     # creating "play audio" button
     with play_btn:
         avs.add_vertical_space(2)
-        if uploaded_file:
+        if uploaded_file and st.session_state["correct_upload"]:
             audio_file = open(audio_file_path, "rb")
             audio_bytes = audio_file.read()
             st.audio(audio_bytes, format="audio/ogg")

@@ -94,7 +94,7 @@ def main():
 
     # file upload header
     youtube_transcriber = """
-         <h3 style="color:#a2d2fb">YouTube Audio Transcriber</h3>
+        <h3 style="color:#a2d2fb">YouTube Audio Transcriber</h3>
         """
     st.markdown(youtube_transcriber, unsafe_allow_html=True)
 
@@ -116,10 +116,13 @@ def main():
 
         extract_btn = st.button("Extract Audio", type="primary")
 
-        if extract_btn and st.session_state["uploaded"] == True:
-            st.session_state["file_path"] = "./data/uploaded/youtube_audio.m4a"
-            yt_extractor.extract_audio(url)
-            st.session_state["extracted"] = True
+        if extract_btn:
+            with st.spinner("Extracting Audio..."):
+                st.session_state["file_path"] = "./data/uploaded/youtube_audio.m4a"
+                if os.path.exists(st.session_state["file_path"]):
+                    os.remove(st.session_state["file_path"])
+                yt_extractor.extract_audio(url)
+                st.session_state["extracted"] = True
 
     avs.add_vertical_space(2)
     with audio_btn:
