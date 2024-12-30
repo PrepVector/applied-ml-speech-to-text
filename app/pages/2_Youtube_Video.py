@@ -57,10 +57,10 @@ st.markdown(
 youtube_objective = """
     <h3 style="color:#a2d2fb">Objective</h3>
 
-    > The objective of this page is to facilitate users in extracting audio and generating accurate text transcriptions from YouTube videos. 
-    By accepting a YouTube video link as input, this page streamlines the process of extracting audio content and performing automatic transcription. 
-    The user-friendly interface ensures a seamless experience, allowing users to obtain text transcriptions effortlessly. 
-    This page aims to provide an efficient solution for transcription from YouTube videos, ensuring accuracy and user satisfaction throughout the process. 
+    > The objective of this page is to facilitate users in extracting audio and generating accurate text transcriptions from YouTube videos.
+    By accepting a YouTube video link as input, this page streamlines the process of extracting audio content and performing automatic transcription.
+    The user-friendly interface ensures a seamless experience, allowing users to obtain text transcriptions effortlessly.
+    This page aims to provide an efficient solution for transcription from YouTube videos, ensuring accuracy and user satisfaction throughout the process.
     """
 st.markdown(youtube_objective, unsafe_allow_html=True)
 
@@ -71,18 +71,18 @@ youtube_using = """
     <span style="color:#7ce38b">1. Enter YouTube Video Link:</span>
     Input the YouTube video link in the designated area or field on the page.
 
-    <span style="color:#7ce38b">2. Extract Audio:</span> After entering the YouTube video link, locate the "Extract Audio" 
+    <span style="color:#7ce38b">2. Extract Audio:</span> After entering the YouTube video link, locate the "Extract Audio"
     button and click on it. This initiates the process of extracting audio from the provided YouTube video.
 
-    <span style="color:#7ce38b">3. Generate Transcription:</span> Once the audio extraction is complete, find the "Generate Transcription" 
-    button and click on it. This triggers the automatic transcription process. Wait for the system to process the audio and 
+    <span style="color:#7ce38b">3. Generate Transcription:</span> Once the audio extraction is complete, find the "Generate Transcription"
+    button and click on it. This triggers the automatic transcription process. Wait for the system to process the audio and
     generate the text transcription.
 
-    <span style="color:#7ce38b">4. Play Audio:</span> Utilize the "Play" button to listen to the extracted audio and review the corresponding text transcription. 
+    <span style="color:#7ce38b">4. Play Audio:</span> Utilize the "Play" button to listen to the extracted audio and review the corresponding text transcription.
     The play button facilitates an integrated review of the audio content alongside the displayed text.
 
-    <span style="color:#7ce38b">5. Review Transcription:</span> Once the transcription is complete, the text result 
-    will be displayed on the page. Review the transcription for accuracy and make any necessary adjustments. 
+    <span style="color:#7ce38b">5. Review Transcription:</span> Once the transcription is complete, the text result
+    will be displayed on the page. Review the transcription for accuracy and make any necessary adjustments.
     Copy the text for further use or analysis.
     """
 st.markdown(youtube_using, unsafe_allow_html=True)
@@ -117,7 +117,7 @@ def main():
         extract_btn = st.button("Extract Audio", type="primary")
 
         if extract_btn and st.session_state["uploaded"] == True:
-            st.session_state["file_path"] = "data/uploaded/youtube_audio.mp4"
+            st.session_state["file_path"] = "./data/uploaded/youtube_audio.m4a"
             yt_extractor.extract_audio(url)
             st.session_state["extracted"] = True
 
