@@ -34,12 +34,12 @@ st.markdown(title_style, unsafe_allow_html=True)
 
 # hiding hamburger menu
 hide_menu_style = """
-                       <style>
-                       #MainMenu {visibility: hidden;}
-                       .stApp [data-testid="stToolbar"]{display:none;}
-                       footer {visibility:hidden}
-                       </style>
-                       """
+                    <style>
+                    #MainMenu {visibility: hidden;}
+                    .stApp [data-testid="stToolbar"]{display:none;}
+                    footer {visibility:hidden}
+                    </style>
+                    """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 # header
@@ -52,10 +52,10 @@ st.markdown(
 objective = """
     <h3 style="color:#a2d2fb">Objective</h3>
 
-    > The objective of this page is to empower users to effortlessly transcribe pre-recorded audio files. By 
-    providing a seamless and user-friendly interface, this page allows users to upload audio files in various formats 
-    and generate accurate text transcriptions with a simple click. The page 
-    aims to offer a comprehensive solution for batch audio transcription, ensuring efficiency, accuracy, 
+    > The objective of this page is to empower users to effortlessly transcribe pre-recorded audio files. By
+    providing a seamless and user-friendly interface, this page allows users to upload audio files in various formats
+    and generate accurate text transcriptions with a simple click. The page
+    aims to offer a comprehensive solution for batch audio transcription, ensuring efficiency, accuracy,
     and user satisfaction throughout the process. """
 st.markdown(objective, unsafe_allow_html=True)
 
@@ -66,16 +66,16 @@ using = """
     <span style="color:#7ce38b">1. Upload Audio File:</span>
     Click on the designated area or button to upload your audio file. Supported formats include MP3, WAV, and more.
 
-    <span style="color:#7ce38b">2. Generate Transcription:</span> After uploading the audio file, find the "Generate" 
-    button and click on it. This initiates the transcription process. Wait for the system to process the audio and 
-    generate the text transcription. 
+    <span style="color:#7ce38b">2. Generate Transcription:</span> After uploading the audio file, find the "Generate"
+    button and click on it. This initiates the transcription process. Wait for the system to process the audio and
+    generate the text transcription.
 
-    <span style="color:#7ce38b">3. Play Audio:</span> Use the "Play" button to 
-    listen to the audio and review the corresponding text transcription. The play button allows you to hear the audio 
-    content alongside the displayed text, facilitating a comprehensive review. 
+    <span style="color:#7ce38b">3. Play Audio:</span> Use the "Play" button to
+    listen to the audio and review the corresponding text transcription. The play button allows you to hear the audio
+    content alongside the displayed text, facilitating a comprehensive review.
 
-    <span style="color:#7ce38b">4. Review Transcription:</span> Once the transcription is complete, the text result 
-    will be displayed on the page. Review the transcription for accuracy. You can copy the text for 
+    <span style="color:#7ce38b">4. Review Transcription:</span> Once the transcription is complete, the text result
+    will be displayed on the page. Review the transcription for accuracy. You can copy the text for
     further use. """
 
 st.markdown(using, unsafe_allow_html=True)
@@ -86,7 +86,7 @@ def main():
 
     # file upload header
     file_upload = """
-     <h3 style="color:#a2d2fb">Audio Transcriber</h3>
+        <h3 style="color:#a2d2fb">Audio Transcriber</h3>
     """
     st.markdown(file_upload, unsafe_allow_html=True)
 
@@ -96,32 +96,35 @@ def main():
 
     with upload_btn:
         uploaded_file = st.file_uploader(
-            "Choose a file", help="Please upload a audio file", type=["wav"]
+            "Choose a file", help="Please upload a audio file", type=["wav", "mp3"]
         )
 
-        BASE_PATH = "data/uploaded"
+        BASE_PATH = "./data/uploaded"
         file_path = ""
 
         # removing all the files if directory already exits
         for file in os.listdir(BASE_PATH):
             file_path = os.path.join(BASE_PATH, file)
+            # print(file_path)
             os.remove(file_path)
 
         if uploaded_file:
             # checking the file type & saving on server
             file_name = uploaded_file.name
+            audio_file_path = f"{BASE_PATH}/{file_name}"
+            # print(file_name)
             if file_name.endswith(".mp3"):
                 audio = AudioSegment.from_mp3(uploaded_file)
-                audio.export("data/uploaded/{}".format(file_name), format="wav")
+                audio.export(audio_file_path, format="wav")
             else:
                 wav_file = AudioSegment.from_wav(uploaded_file)
-                wav_file.export("data/uploaded/{}".format(file_name), format="wav")
+                wav_file.export(audio_file_path, format="wav")
 
     # creating "play audio" button
     with play_btn:
         avs.add_vertical_space(2)
         if uploaded_file:
-            audio_file = open(f"data/uploaded/{file_name}", "rb")
+            audio_file = open(audio_file_path, "rb")
             audio_bytes = audio_file.read()
             st.audio(audio_bytes, format="audio/ogg")
             # st.audio(file_path,)
@@ -142,7 +145,7 @@ def main():
                     with text_area:
                         t_duration = None
                         # calling get_transcripts() to get the transcripts
-                        if uploaded_file.name.endswith("wav"):
+                        if file_path:
                             results = transcript_processor.get_transcripts(file_path)
                             if results:
                                 transcripts, t_duration = results
