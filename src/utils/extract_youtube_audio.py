@@ -1,4 +1,4 @@
-import pytube
+import yt_dlp
 from src.logger import ProjectLogger
 
 logger = ProjectLogger().get_logger()
@@ -9,10 +9,20 @@ class YouTubeAudioExtractor:
         """
         Initialize the YouTubeAudioExtractor.
         """
-        self.data = None
-        self.audio = None
+        self.download_config = {
+            "format": "m4a/bestaudio/best",
+            "outtmpl": {"default": "./data/uploaded/youtube_audio.%(ext)s"},
+            "cachedir": False,
+            "verbose": True,
+            # "postprocessors": [
+            #     {  # Extract audio using ffmpeg
+            #         "key": "FFmpegExtractAudio",
+            #         "preferredcodec": "m4a",
+            #     }
+            # ],
+        }
 
-    def extract_audio(self, url):
+    def extract_audio(self, yt_url):
         """
         Extract audio from a YouTube video and save it as an MP4 file.
 
@@ -24,16 +34,9 @@ class YouTubeAudioExtractor:
         """
         logger.info(f"Entered extract_audio() in {self.__class__.__name__} class")
         try:
-            self.data = pytube.YouTube(url)
-            if self.data:
-                self.audio = self.data.streams.get_audio_only()
-                if self.audio:
-                    # Download the audio and save as MP4
-                    self.audio.download(filename="data/uploaded/youtube_audio.mp4")
-                else:
-                    logger.error("Failed to save file")
-            else:
-                logger.error("Failed to extract audio from YouTube Video")
+            with yt_dlp.YoutubeDL(self.download_config) as ydl:
+                error_code = ydl.download(yt_url)
         except Exception as e:
+            logger.error("Failed to extract audio from YouTube Video")
             logger.exception(e)
         logger.info("Exiting extract_audio()")
