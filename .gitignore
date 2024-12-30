@@ -28,6 +28,7 @@ models/**/base.pt
 
 # Ignore generated files
 generated/
+/data
 
 # Ignore model files (if generated during runtime)
 .idea/
