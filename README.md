@@ -40,7 +40,7 @@ This project aims to implement Automatic Speech Recognition (ASR) using the Whis
 
 - Docker installed on your machine.
 
-### Instructions
+### Instructions - Docker
 
 1. Clone the repository:
 
@@ -61,6 +61,28 @@ This project aims to implement Automatic Speech Recognition (ASR) using the Whis
     ```
 
 4. Access the Streamlit app in your web browser at [http://localhost:8501](http://localhost:8501).
+
+### Instructions - Docker Compose
+
+1. Clone the repository:
+
+    ```bash
+    git clone  https://github.com/PrepVector/Applied-ML.git
+    ```
+
+2. Start application using docker compose:
+
+    ```bash
+    docker compose --profile app up
+    ```
+
+3. Access the Streamlit app in your web browser at [http://localhost:8501](http://localhost:8501).
+
+4. To stop the application
+
+    ```bash
+    docker compose down
+    ```
 
 ### Additional Commands
 
